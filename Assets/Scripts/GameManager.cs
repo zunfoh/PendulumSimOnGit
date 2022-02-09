@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     GameObject sphereForTest;
     GameObject rodForTest;
     GameObject hrBar;
+    Rigidbody rodRigidbody;
 
 
     // Start is called before the first frame update
@@ -24,18 +25,21 @@ public class GameManager : MonoBehaviour
 
         rodForTest = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         rodForTest.transform.localScale = new Vector3(0.5f, 0.9f, 0.5f);
+        rodForTest.transform.Rotate(50.0f, 0.0f, 0.0f, Space.Self);
+
         HingeJoint rodHingeJoint = rodForTest.AddComponent<HingeJoint>();
         rodHingeJoint.connectedBody = hrBarsRigidbody;
 
-        Rigidbody rodRidbody = rodForTest.GetComponent<Rigidbody>();
-        rodRidbody.useGravity = (false);
-        rodRidbody.isKinematic = (true);//could be a trigger when "false" is like real physics
+        rodRigidbody = rodForTest.GetComponent<Rigidbody>();
+        rodRigidbody.useGravity = (false);
+        rodRigidbody.isKinematic = (false);//could be a trigger when "false" is like real physics
 
 
-        sphereForTest = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphereForTest.transform.position = new Vector3(0.01f, -1.72f, 0.26f);
-        HingeJoint sphereHingeJoint = sphereForTest.AddComponent<HingeJoint>();
-        sphereHingeJoint.connectedBody = rodRidbody;
+        //sphereForTest = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //sphereForTest.transform.position = new Vector3(-0.03f, -1.72f, 0.1f);
+        //HingeJoint sphereHingeJoint = sphereForTest.AddComponent<HingeJoint>();
+        //sphereHingeJoint.autoConfigureConnectedAnchor = (false);
+        //sphereHingeJoint.connectedBody = rodRigidbody;
 
 
         //Rigidbody gameObjsRigidBody = sphereForTest.AddComponent<Rigidbody>();
@@ -52,7 +56,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyUp("s"))
+        {
+            rodRigidbody.useGravity = (true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel("HingeByScript");
+        }
+
+
+
 
     }
 
