@@ -11,49 +11,83 @@ public class GameManager : MonoBehaviour
 {
     //float swingSpeed = 0.1f;
     //GameObject sphereForTest;
-    GameObject rodForTest;
+    GameObject rodTest;
     GameObject hrBar;
-    Rigidbody rodRigidbody;
-    Rigidbody hrBarRigidbody;
+    GameObject ballTest;
+    Rigidbody rodRB;
+    Rigidbody hrBarRB;
     HingeJoint rodHingeJoint;
-
+    FixedJoint ballFJ;
+    float refY;
+    float refYforBall;
+    //int rodCount;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        //rodTest = new GameObject[rodCount];
+
+        //rodCount = 3;
+
         SetBar();
 
         SetRod();
+
+        SetSphere();
+
         
+    }
+
+    private void SetSphere()
+    {
+        refYforBall = refY - rodTest.transform.localScale.y*2 - rodTest.transform.localScale.y / 4;
+        ballTest = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        ballTest.transform.position = new Vector3(hrBar.transform.position.x, refYforBall, hrBar.transform.position.z);
+
+        ballFJ = ballTest.AddComponent<FixedJoint>();
+        ballFJ.connectedBody = rodRB;
     }
 
     private void SetRod()
     {
-        rodForTest = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        rodForTest.transform.localScale = new Vector3(0.5f, 1.7f, 0.5f);
-        rodForTest.transform.Rotate(40.0f, 0.0f, 0.0f, Space.Self);
+        refY = hrBar.transform.position.y - hrBar.transform.localScale.x / 2;
 
-        rodHingeJoint = rodForTest.AddComponent<HingeJoint>();
-        rodHingeJoint.connectedBody = hrBarRigidbody;
-        //rodHingeJoint.autoConfigureConnectedAnchor = (false);
-        //rodHingeJoint.connectedAnchor = new Vector3(hrBar.transform.position.x/2, hrBar.transform.position.y/4, hrBar.transform.position.z/2);
+        
+            //refY = hrBar.transform.position.y - hrBar.transform.localScale.y / 2; //first
+            //refY = hrBar.transform.position.y - hrBar.transform.localScale.x / 2;//when hrBar as cylinter rotate to 90"
 
-        rodRigidbody = rodForTest.GetComponent<Rigidbody>();
-        rodRigidbody.useGravity = (false);
-        rodRigidbody.isKinematic = (true);//could be a trigger when "false" is like real physics
+
+            rodTest= GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            rodTest.transform.localScale = new Vector3(0.5f, 1.8f, 0.5f);
+            //rodForTest.transform.position = new Vector3(hrBar.transform.position.x, refY - rodForTest.transform.localScale.y, hrBar.transform.position.z);
+            rodTest.transform.position = new Vector3(hrBar.transform.position.x, refY - rodTest.transform.localScale.y, hrBar.transform.position.z);
+            //rodForTest.transform.position = new Vector3(hrBar.transform.position.x, hrBar.transform.position.y, hrBar.transform.position.z);
+
+
+            //localScaleY is twice length for cyclinder and cpsusle,
+
+            //rodForTest.transform.Rotate(40.0f, 0.0f, 0.0f, Space.Self);
+
+            rodHingeJoint = rodTest.AddComponent<HingeJoint>();
+            rodHingeJoint.connectedBody = hrBarRB;
+            //rodHingeJoint.autoConfigureConnectedAnchor = (false);
+
+            rodRB = rodTest.GetComponent<Rigidbody>();
+            rodRB.useGravity = (false);
+            rodRB.isKinematic = (true);//could be a trigger when "false" is like real physics
+        
     }
 
     private void SetBar()
     {
-        hrBar = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        hrBar.transform.localScale = new Vector3(1f, 1f, 4f);
-        hrBar.transform.position = new Vector3(0f, 1.5f, 0.5f);
-        hrBarRigidbody = hrBar.AddComponent<Rigidbody>();
-        hrBarRigidbody.useGravity = (false);
-        hrBarRigidbody.isKinematic = (true);
-
-
+        hrBar = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        hrBar.transform.localScale = new Vector3(1f, 4f, 1f);
+        hrBar.transform.Rotate(90f, 0f, 0f, Space.Self);
+        hrBar.transform.position = new Vector3(0f, 20f, 0.5f);
+        hrBarRB = hrBar.AddComponent<Rigidbody>();
+        hrBarRB.useGravity = (false);
+        hrBarRB.isKinematic = (true);
 
     }
 
@@ -62,12 +96,12 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyUp("s"))
         {
-            rodRigidbody.useGravity = (true);
+            rodRB.useGravity = (true);
         }
 
         if (Input.GetKeyUp("k"))
         {
-            rodRigidbody.isKinematic = (false);
+            rodRB.isKinematic = (false);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
