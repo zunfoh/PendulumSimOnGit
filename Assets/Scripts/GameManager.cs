@@ -10,44 +10,75 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     GameObject[] rodArray;
+    GameObject[] sphereArray;
+    GameObject mainBar;
+    //AudioSource colidSoundEff;
+
+
     int rodTotal;
     Rigidbody tempRB;//this is declareing, so without "=" !!
+    float tempRadius;
     //int rodCount;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rodTotal = 5;
+        rodTotal = 10;
         rodArray = new GameObject[rodTotal];
-       
+        tempRadius = 0.4f;
         //rodTest = new GameObject[rodCount];
 
-        //rodCount = 3;
-        float xPos = 0;
-        float xGap = 1.5f;
+        
+        sphereArray = new GameObject[rodTotal];
+
+
+        float xGap = 0.4f;
+        float rodXPos;
+
         //GameObject tempObject;
-        Transform tempTransform;
+        //Transform tempTransform;
 
-
+        CreateMainBar();
+        rodXPos = mainBar.transform.position.x - mainBar.transform.localScale.x / 2 + xGap;
 
         for (int i = 0; i < rodTotal; i++)
         {
-            tempTransform = SetBar(xPos); //Transform = Transform, why is that? ya why Transform?
 
-            rodArray[i] = SetRod(tempTransform);
+            rodArray[i] = SetRod(rodXPos);
 
-            SetSphere(tempTransform, rodArray[i]);
+            sphereArray[i] = SetSphere(rodArray[i], rodXPos);
 
-            xPos += xGap;
+            //sphereArray[i].AddComponent<AudioSource>();
+
+
+            rodXPos += xGap;
 
         }
 
+        //PlayCreateColliSound();
+
+        
+    }
+
+    private void PlayCreateColliSound()
+    {
+        //if 
+        //colidSoundEff.PlayOneShot(GameAssets.i.ballCollide);
+        //colidSoundEff.PlayOneShot("")
 
     }
 
+    private void CreateMainBar()
+    {
+
+        mainBar = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        mainBar.transform.localScale = new Vector3(20, 1, 1);
+        mainBar.transform.position = new Vector3(5.8f, 20, 0);
+    }
+
     //private void SetSphere(GameObject hrBar)
-    private void SetSphere(Transform hrBar, GameObject refRod)
+    private GameObject SetSphere(GameObject refRod, float xPos)
 
     {
         GameObject refBall;
@@ -57,23 +88,35 @@ public class GameManager : MonoBehaviour
         float refYforBall;
         float refY;
 
+        //AudioSource colidsoundeff;
 
-        refY = hrBar.transform.position.y - hrBar.transform.localScale.x / 2;
 
+        refY = mainBar.transform.position.y - mainBar.transform.localScale.y / 2;  // y position of bottom of a bar 
         rodRB = refRod.GetComponent<Rigidbody>();
 
-        refYforBall = refY - refRod.transform.localScale.y * 2 - refRod.transform.localScale.y / 4;
+        //refYforBall = refY - refRod.transform.localScale.y * 2 - refRod.transform.localScale.y / 4;
+        refYforBall = refY - refRod.transform.localScale.y * 2;
         refBall = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        refBall.transform.position = new Vector3(hrBar.transform.position.x, refYforBall, hrBar.transform.position.z);
+        refBall.transform.localScale = new Vector3(tempRadius, tempRadius, tempRadius);
+
+        refBall.transform.position = new Vector3(xPos, refYforBall - tempRadius / 2.0f, mainBar.transform.position.z);
+
+        
+
 
         ballFJ = refBall.AddComponent<FixedJoint>();
 
         ballFJ.connectedBody = rodRB;
+
+        //colidsoundeff = refBall.AddComponent<AudioSource>();
+        //colidsoundeff.PlayOneShot(GameAssets.i.ballCollide);
+
+        return refBall;
     }
 
     //private void SetRod(GameObject hrBar)
     //private void SetRod(Transform hrBar)//this is the main focus//private GameObject SetRod
-    private GameObject SetRod (Transform hrBar)
+    private GameObject SetRod(float xPos)
 
     {
         GameObject refRod;
@@ -82,33 +125,31 @@ public class GameManager : MonoBehaviour
         HingeJoint rodHingeJoint;
         float refY;
 
-
-
-        refY = hrBar.transform.position.y - hrBar.transform.localScale.x / 2;
+        refY = mainBar.transform.position.y - mainBar.transform.localScale.y / 2;
 
         //refY = hrBar.transform.position.y - hrBar.transform.localScale.y / 2; //first
         //refY = hrBar.transform.position.y - hrBar.transform.localScale.x / 2;//when hrBar as cylinter rotate to 90"
 
-
         refRod = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        refRod.transform.localScale = new Vector3(0.5f, 1.8f, 0.5f);
+        refRod.transform.localScale = new Vector3(0.02f, 1.8f, 0.02f);
         //rodForTest.transform.position = new Vector3(hrBar.transform.position.x, refY - rodForTest.transform.localScale.y, hrBar.transform.position.z);
-        refRod.transform.position = new Vector3(hrBar.transform.position.x, refY - refRod.transform.localScale.y, hrBar.transform.position.z);
+        refRod.transform.position = new Vector3(xPos, refY - refRod.transform.localScale.y, mainBar.transform.position.z);
         //rodForTest.transform.position = new Vector3(hrBar.transform.position.x, hrBar.transform.position.y, hrBar.transform.position.z);
 
         //localScaleY is twice length for cyclinder and cpsusle,
 
 
         rodHingeJoint = refRod.AddComponent<HingeJoint>();
-        hrBarRB = hrBar.GetComponent<Rigidbody>();
+        hrBarRB = mainBar.GetComponent<Rigidbody>();
 
         rodHingeJoint.connectedBody = hrBarRB;
         rodHingeJoint.axis = new Vector3(0f, 0f, 1f);
-        //rodHingeJoint.autoConfigureConnectedAnchor = (false);
+        rodHingeJoint.autoConfigureConnectedAnchor = (false);
+        rodHingeJoint.connectedAnchor = new Vector3(xPos, refY, mainBar.transform.position.z);
 
         rodRB = refRod.GetComponent<Rigidbody>();
-        rodRB.useGravity = (false);//turn it on, then it can swin
-        rodRB.isKinematic = (true);//could be a trigger when "false" is like real physics
+        rodRB.useGravity = (true);//turn it on, then it can swin
+        rodRB.isKinematic = (false);//could be a trigger when "false" is like real physics
 
         return refRod;
 
@@ -134,12 +175,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        //if(sphereArray[i].)
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyUp("s"))
         {
-            for (int i = 0; i<rodTotal; i++)
+            for (int i = 0; i < rodTotal; i++)
             {
                 tempRB = rodArray[i].GetComponent<Rigidbody>();//it is defining, and use "="!!
                 tempRB.useGravity = (true);
@@ -153,8 +199,21 @@ public class GameManager : MonoBehaviour
                 tempRB = rodArray[i].GetComponent<Rigidbody>();//it is defining, and use "="!!
                 tempRB.isKinematic = (false);
             }
+        }
+
+        if (Input.GetKeyUp("f"))
+        {
+           
+            tempRB = sphereArray[0].GetComponent<Rigidbody>();//it is defining, and use "="!!
+            tempRB.isKinematic = (false);
+            tempRB.AddForce(new Vector3(-3, 0, 0), ForceMode.Impulse);
+
+
+
+
             //rodRB.isKinematic = (false);
         }
+
 
         if (Input.GetKeyDown(KeyCode.R))
         {
