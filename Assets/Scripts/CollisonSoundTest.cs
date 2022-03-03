@@ -8,6 +8,8 @@ public class CollisonSoundTest : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        GetComponent<AudioSource>().Play();
+        
         Debug.Log("PlaySound");
     }
 }

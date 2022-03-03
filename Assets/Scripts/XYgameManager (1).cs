@@ -123,6 +123,8 @@ public class XYGameManager : MonoBehaviour
 
         refBall.AddComponent<CollisonSoundTest>();
 
+
+
         return refBall;
     }
 

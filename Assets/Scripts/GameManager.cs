@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     GameObject[] rodArray;
     GameObject[] sphereArray;
     GameObject mainBar;
-    //AudioSource colidSoundEff;
+
+    AudioSource colidSoundEff;
 
 
     int rodTotal;
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
         float refYforBall;
         float refY;
 
-        //AudioSource colidsoundeff;
+        //AudioSource colidSoundEff;
 
 
         refY = mainBar.transform.position.y - mainBar.transform.localScale.y / 2;  // y position of bottom of a bar 
@@ -106,6 +107,11 @@ public class GameManager : MonoBehaviour
         ballFJ.connectedBody = rodRB;
 
         refBall.AddComponent<CollisonSoundTest>();
+
+        colidSoundEff = refBall.AddComponent<AudioSource>();
+        colidSoundEff.clip= Resources.Load("AudioFiles/metalSou", typeof(AudioClip)) as AudioClip;
+        colidSoundEff.playOnAwake = (false);
+
 
 
         return refBall;
