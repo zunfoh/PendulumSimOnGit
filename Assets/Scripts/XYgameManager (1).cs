@@ -7,7 +7,7 @@ using UnityEngine;
 //use fixedjoint
 //start to UI, like panel , so that user can start to interactive
 //transform scaling, make it pecisely, position exactly , bar with capsule, 
-public class GameManager : MonoBehaviour
+public class XYGameManager : MonoBehaviour
 {
     public GameObject soundManager;
     GameObject[] rodArray;
@@ -20,8 +20,12 @@ public class GameManager : MonoBehaviour
     Rigidbody tempRB;//this is declareing, so without "=" !!
     float tempRadius;
     //int rodCount;
+    public float xGap = 0.4f;
 
+    Material penMaterial;
+    PhysicMaterial sphereMat;
 
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -36,9 +40,10 @@ public class GameManager : MonoBehaviour
         
         sphereArray = new GameObject[rodTotal];
 
-
-        float xGap = 0.4f;
         float rodXPos;
+
+        penMaterial = Resources.Load("Materials/DarkBrown", typeof(Material)) as Material;
+        sphereMat = Resources.Load("Materials/Pen", typeof(PhysicMaterial)) as PhysicMaterial;
 
         //GameObject tempObject;
         //Transform tempTransform;
@@ -60,11 +65,18 @@ public class GameManager : MonoBehaviour
 
         }
 
+        //PlayCreateColliSound();
 
         
     }
 
-    
+    private void PlayCreateColliSound()
+    {
+        //if 
+        //colidSoundEff.PlayOneShot(GameAssets.i.ballCollide);
+        //colidSoundEff.PlayOneShot("")
+
+    }
 
     private void CreateMainBar()
     {
@@ -98,15 +110,18 @@ public class GameManager : MonoBehaviour
 
         refBall.transform.position = new Vector3(xPos, refYforBall - tempRadius / 2.0f, mainBar.transform.position.z);
 
-        
+        refBall.GetComponent<Renderer>().material = penMaterial;
+        refBall.GetComponent<SphereCollider>().material = sphereMat;
 
 
         ballFJ = refBall.AddComponent<FixedJoint>();
 
         ballFJ.connectedBody = rodRB;
 
-        refBall.AddComponent<CollisonSoundTest>();
+        //colidsoundeff = refBall.AddComponent<AudioSource>();
+        //colidsoundeff.PlayOneShot(GameAssets.i.ballCollide);
 
+        refBall.AddComponent<CollisonSoundTest>();
 
         return refBall;
     }
@@ -172,7 +187,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        //if(sphereArray[i].)
+    }
 
     // Update is called once per frame
     void Update()
