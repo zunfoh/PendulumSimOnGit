@@ -99,18 +99,16 @@ public class GameManager : MonoBehaviour
 
         refBall.transform.position = new Vector3(xPos, refYforBall - tempRadius / 2.0f, mainBar.transform.position.z);
 
-        
-
 
         ballFJ = refBall.AddComponent<FixedJoint>();
 
         ballFJ.connectedBody = rodRB;
 
-        refBall.AddComponent<CollisonSoundTest>();
+        //refBall.AddComponent<CollisonSoundTest>();
 
-        colidSoundEff = refBall.AddComponent<AudioSource>();
-        colidSoundEff.clip= Resources.Load("AudioFiles/metalSou", typeof(AudioClip)) as AudioClip;
-        colidSoundEff.playOnAwake = (false);
+        //colidSoundEff = refBall.AddComponent<AudioSource>();
+        //colidSoundEff.clip= Resources.Load("AudioFiles/metalSou", typeof(AudioClip)) as AudioClip;
+        //colidSoundEff.playOnAwake = (false);
 
 
 
