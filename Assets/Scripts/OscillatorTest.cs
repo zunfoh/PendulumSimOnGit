@@ -18,7 +18,7 @@ public class OscillatorTest : MonoBehaviour
     //public float[] frequencies;
     //public int thisFreq;
 
-    private void Awake()
+    private void Start()
     {
         //BallColiSound ballColiSound;
         ballColiSound = osSound.GetComponent<BallColiSound>();
@@ -26,10 +26,12 @@ public class OscillatorTest : MonoBehaviour
 
     private void Update()
     {
-        if (ballColiSound == isActiveAndEnabled)
+        //gain = Random.Range(0f, 0.1f);
+        
+        /*if (ballColiSound == isActiveAndEnabled)
         {
-            gain = Random.Range(0f, 0.1f);
-        }
+            
+        }*/
     }
 
 
