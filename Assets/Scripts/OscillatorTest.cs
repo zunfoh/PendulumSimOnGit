@@ -24,13 +24,13 @@ public class OscillatorTest : MonoBehaviour
         ballColiSound = osSound.GetComponent<BallColiSound>();
     }
 
-    private void Update()
-    {
-        if (ballColiSound == isActiveAndEnabled)
-        {
-            gain = Random.Range(0f, 0.1f);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (ballColiSound == isActiveAndEnabled)
+    //    {
+    //        gain = Random.Range(0f, 0.1f);
+    //    }
+    //}
 
 
 

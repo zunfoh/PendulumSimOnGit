@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class BallColiSound : MonoBehaviour
 {
-    //OscillatorTest oscillatorTest;
-    //GameObject osSound;
+    OscillatorTest oscillatorTest;
+    public GameObject osSound;
 
-    //private void Start()
-    //{
-    //    oscillatorTest = osSound.GetComponent<OscillatorTest>();
-        
-    //}
+    void Start()
+    {
+        oscillatorTest = osSound.GetComponent<OscillatorTest>();
+
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
 
-        //oscillatorTest.gain = 0.2f;
+        oscillatorTest.gain = Random.Range(0f, 0.1f);
         //GetComponent<AudioSource>().Play();
         Debug.Log("PlaySound");
 

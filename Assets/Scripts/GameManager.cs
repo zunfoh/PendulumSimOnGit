@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     float tempRadius;
     //int rodCount;
 
+    private void Awake()
+    {
+        FindObjectOfType<BrAudioManager>().Play("BackGroundMusic");
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +33,7 @@ public class GameManager : MonoBehaviour
         CollisonSoundTest soundScript;
         soundScript = soundManager.GetComponent<CollisonSoundTest>();
 
-        rodTotal = 10;
+        rodTotal = 3;
         rodArray = new GameObject[rodTotal];
         tempRadius = 0.4f;
         //rodTest = new GameObject[rodCount];
@@ -56,11 +60,11 @@ public class GameManager : MonoBehaviour
 
             //sphereArray[i].AddComponent<AudioSource>();
 
-
             rodXPos += xGap;
 
         }
 
+        //sphereArray[0].GetComponent<CollisonSoundTest>
 
         
     }
@@ -104,7 +108,7 @@ public class GameManager : MonoBehaviour
 
         ballFJ.connectedBody = rodRB;
 
-        //refBall.AddComponent<CollisonSoundTest>();
+        refBall.AddComponent<CollisonSoundTest>();
 
         //colidSoundEff = refBall.AddComponent<AudioSource>();
         //colidSoundEff.clip= Resources.Load("AudioFiles/metalSou", typeof(AudioClip)) as AudioClip;
