@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CollisonSoundTest : MonoBehaviour
 {
-    GameManager gameManager;
-    public GameObject coliSound;
-
+    /*GameManager gameManager;
+    public GameObject coliSound;*/
+    public int index;
+    public GameObject audioManager;
     private void Start()
     {
-        gameManager = coliSound.GetComponent<GameManager>();
+        //gameManager = coliSound.GetComponent<GameManager>();
     }
 
 
@@ -21,11 +22,11 @@ public class CollisonSoundTest : MonoBehaviour
         //{
 
         //}
-    
-        
-        //FindObjectOfType<BrAudioManager>().Play("do");
+
+        string audioName= audioManager.GetComponent<BrAudioManager>().GetAudio(index);
+        audioManager.GetComponent<BrAudioManager>().Play(audioName);
         
 
-        Debug.Log("PlaySound");
+        Debug.Log("PlaySound="+audioName);
     }
 }

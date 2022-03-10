@@ -5,6 +5,7 @@ using UnityEngine;
 public class BrAudioManager : MonoBehaviour
 {
     public Sound[] sounds;
+    string[] notes;
 
     private void Awake()
     {
@@ -17,11 +18,19 @@ public class BrAudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
         }
     }
-
+    private void Start()
+    {
+        notes =new string[8]{ "do","re","mi","fa","so","la","si","doe" };
+    }
     public void Play (string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         s.source.Play();
         
+    }
+
+    public string GetAudio(int index)
+    {
+        return notes[index];
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &418479166
 Transform:
   m_ObjectHideFlags: 0
@@ -161,11 +161,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418479165}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5c0045faeaab41c1a68f85383095437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  audioManager: {fileID: 0}
 --- !u!1 &609597757
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +302,16 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: do
     clip: {fileID: 8300000, guid: f923e9cfe5d374d03a4beef3b3a2a4bf, type: 3}
+    volume: 0.649
+    pitch: 1.07
+    source: {fileID: 0}
+  - name: re
+    clip: {fileID: 8300000, guid: e3edfa6cf08bb4ed698b2b157fefc996, type: 3}
+    volume: 0.649
+    pitch: 1.07
+    source: {fileID: 0}
+  - name: mi
+    clip: {fileID: 8300000, guid: 6df10862310f24db69dd1714d8d1274c, type: 3}
     volume: 0.649
     pitch: 1.07
     source: {fileID: 0}
@@ -621,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a8745489a4a41a0bce2ca12e4f3c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundManager: {fileID: 418479165}
+  soundManager: {fileID: 652794109}
 --- !u!4 &1514732254
 Transform:
   m_ObjectHideFlags: 0
